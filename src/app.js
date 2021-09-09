@@ -34,6 +34,23 @@ app.get("/secret", auth, (req, res) => {
 app.get("/register", (req, res) => {
   res.render("register");
 });
+
+app.get("/logout", auth, async (req, res) => {
+  try {
+    console.log("this is req.token", req.token);
+
+    req.userData.tokens = req.userData.tokens.filter((currElem) => {
+      return currElem.token != req.token;
+    });
+    res.clearCookie("jwt");
+    console.log("logout successfully");
+    await req.userData.save();
+    res.render("login");
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 app.post("/register", async (req, res) => {
   try {
     const hash = bcrypt.hashSync(req.body.password, 8);

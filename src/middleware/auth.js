@@ -13,6 +13,11 @@ const auth = async (req, res, next) => {
     const userData = await userMod.findOne({ _id: verifyUser._id });
     console.log(userData);
 
+    req.token = token;
+    req.userData = userData;
+
+    // console.log(res.token);
+    // console.log(res.userData);
     next();
   } catch (error) {
     res.status(500).send("there is an error in auth.js");

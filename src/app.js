@@ -5,6 +5,7 @@ const path = require("path");
 const bcrypt = require("bcryptjs");
 const hbs = require("hbs");
 
+const auth = require("./middleware/auth");
 const UsersMod = require("./models/user");
 
 hbs.registerPartials(path.join(__dirname, "../templates/partials"));
@@ -25,7 +26,7 @@ app.set("views", path.join(__dirname, "../templates/views"));
 app.get("/", (req, res) => {
   res.render("index");
 });
-app.get("/secret", (req, res) => {
+app.get("/secret", auth, (req, res) => {
   console.log("cookies generated at login time", req.cookies.jwt);
 
   res.render("secret");

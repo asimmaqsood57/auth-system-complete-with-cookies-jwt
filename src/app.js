@@ -39,9 +39,15 @@ app.get("/logout", auth, async (req, res) => {
   try {
     console.log("this is req.token", req.token);
 
-    req.userData.tokens = req.userData.tokens.filter((currElem) => {
-      return currElem.token != req.token;
-    });
+    //for single logout
+
+    // req.userData.tokens = req.userData.tokens.filter((currElem) => {
+    //   return currElem.token != req.token;
+    // });
+
+    //for all devices logout
+    req.userData.tokens = [];
+
     res.clearCookie("jwt");
     console.log("logout successfully");
     await req.userData.save();
